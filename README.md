@@ -627,6 +627,7 @@ The hook is included in this repository at `.claude/hooks/rtk-rewrite.sh`. To us
 | `golangci-lint run` | `rtk golangci-lint run` |
 | `docker ps/images/logs` | `rtk docker ...` |
 | `kubectl get/logs` | `rtk kubectl ...` |
+| `az pipelines/monitor/webapp/account/...` | `rtk az ...` |
 | `curl` | `rtk curl` |
 | `pnpm list/ls/outdated` | `rtk pnpm ...` |
 

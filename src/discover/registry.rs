@@ -1132,7 +1132,7 @@ mod tests {
         );
     }
 
-    // --- AWS / psql (PR #216) ---
+    // --- AWS / AZ / psql ---
 
     #[test]
     fn test_classify_aws() {
@@ -1151,6 +1151,28 @@ mod tests {
             classify_command("aws ec2 describe-instances"),
             Classification::Supported {
                 rtk_equivalent: "rtk aws",
+                ..
+            }
+        ));
+    }
+
+    #[test]
+    fn test_classify_az_pipelines_list() {
+        assert!(matches!(
+            classify_command("az pipelines list"),
+            Classification::Supported {
+                rtk_equivalent: "rtk az",
+                ..
+            }
+        ));
+    }
+
+    #[test]
+    fn test_classify_az_monitor_metrics() {
+        assert!(matches!(
+            classify_command("az monitor metrics list --resource /subscriptions/x"),
+            Classification::Supported {
+                rtk_equivalent: "rtk az",
                 ..
             }
         ));
@@ -1188,6 +1210,22 @@ mod tests {
         assert_eq!(
             rewrite_command("aws ec2 describe-instances --region us-east-1"),
             Some("rtk aws ec2 describe-instances --region us-east-1".into())
+        );
+    }
+
+    #[test]
+    fn test_rewrite_az_pipelines_list() {
+        assert_eq!(
+            rewrite_command("az pipelines list --org https://dev.azure.com/acme"),
+            Some("rtk az pipelines list --org https://dev.azure.com/acme".into())
+        );
+    }
+
+    #[test]
+    fn test_rewrite_az_monitor_activity_log_list() {
+        assert_eq!(
+            rewrite_command("az monitor activity-log list --offset 1d"),
+            Some("rtk az monitor activity-log list --offset 1d".into())
         );
     }
 

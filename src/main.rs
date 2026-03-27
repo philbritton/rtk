@@ -1,4 +1,5 @@
 mod aws_cmd;
+mod az_cmd;
 mod cargo_cmd;
 mod cc_economics;
 mod ccusage;
@@ -177,6 +178,15 @@ enum Commands {
     /// AWS CLI with compact output (force JSON, compress)
     Aws {
         /// AWS service subcommand (e.g., sts, s3, ec2, ecs, rds, cloudformation)
+        subcommand: String,
+        /// Additional arguments
+        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
+        args: Vec<String>,
+    },
+
+    /// Azure CLI with compact output (optimized for Azure DevOps pipelines)
+    Az {
+        /// Azure service subcommand (e.g., pipelines, devops, account)
         subcommand: String,
         /// Additional arguments
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
@@ -1194,6 +1204,10 @@ fn main() -> Result<()> {
             aws_cmd::run(&subcommand, &args, cli.verbose)?;
         }
 
+        Commands::Az { subcommand, args } => {
+            az_cmd::run(&subcommand, &args, cli.verbose)?;
+        }
+
         Commands::Psql { args } => {
             psql_cmd::run(&args, cli.verbose)?;
         }
@@ -1770,6 +1784,7 @@ fn is_operational_command(cmd: &Commands) -> bool {
             | Commands::Smart { .. }
             | Commands::Git { .. }
             | Commands::Gh { .. }
+            | Commands::Az { .. }
             | Commands::Pnpm { .. }
             | Commands::Err { .. }
             | Commands::Test { .. }
@@ -1923,6 +1938,15 @@ mod tests {
             )),
             Ok(_) => panic!("Expected parse error for unknown subcommand"),
         }
+    }
+
+    #[test]
+    fn test_try_parse_az_pipelines_list() {
+        let result = Cli::try_parse_from(["rtk", "az", "pipelines", "list"]);
+        assert!(
+            result.is_ok(),
+            "az pipelines list should parse successfully"
+        );
     }
 
     #[test]
