@@ -5,6 +5,14 @@ All notable changes to rtk (Rust Token Killer) will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.26.0](https://github.com/philbritton/rtk/compare/v0.25.0...v0.26.0) (2026-03-27)
+
+
+### Features
+
+* anonymous telemetry ping (1/day, opt-out) ([#334](https://github.com/philbritton/rtk/issues/334)) ([baff6a2](https://github.com/philbritton/rtk/commit/baff6a2334b155c0d68f38dba85bd8d6fe9e20af))
+* **az:** add Azure CLI provider with compact command filters ([ec01f8c](https://github.com/philbritton/rtk/commit/ec01f8c13222b3440d7c9ef6d8d390f097c86947))
+
 ## [0.25.0](https://github.com/rtk-ai/rtk/compare/v0.24.0...v0.25.0) (2026-03-05)
 
 
